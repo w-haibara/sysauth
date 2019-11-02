@@ -52,14 +52,12 @@ function init (){
 function build (){
 	cd ./linux-${linux_version}
 
-	make -j${JOBS}
+    make -j${JOBS}
+	make -j${JOBS} modules_install 
 }
 
 function deploy (){
 	cd ./linux-${linux_version}
-
-	make -j${JOBS}
-	make -j${JOBS} modules_install 
 
 	cp arch/x86_64/boot/bzImage /boot/vmlinuz-linux-${kernel_name}
 
