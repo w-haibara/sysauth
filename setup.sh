@@ -39,7 +39,7 @@ function init (){
 		sed -i -e "${incert_num}i ${incert_line}" ${syscall_tbl} 
 	fi
 
-	incert_line="#include \"../src/${func_name}\""
+	incert_line="#include \"../../src/${func_name}\""
 	if grep "${incert_line}" ${sys_c} > /dev/null; then
 		echo "note: ${func_name} was already included in kernel/sys.c"
 	else
