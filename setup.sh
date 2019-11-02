@@ -24,12 +24,9 @@ function init (){
 		tar xvf linux-${linux_version}.tar.xz
 	fi
 
-	zcat /proc/config.gz > ./linux-${linux_version}/.config
-
 	cd ./linux-${linux_version}
 
-	zcat /proc/config.gz > .config 
-
+	cat ../config > .config 
 
 	if grep "${incert_line}" ${syscall_tbl} > /dev/null; then
 		echo "note: syscall:${syscall_num} was already incerted in syscall table"
@@ -52,11 +49,17 @@ function init (){
 	make oldconfig
 }
 
+function build (){
+	cd ./linux-${linux_version}
+
+	make -j${JOBS}
+}
+
 function deploy (){
 	cd ./linux-${linux_version}
 
-	make 
-	make modules_install 
+	make -j${JOBS}
+	make -j${JOBS} modules_install 
 
 	cp arch/x86_64/boot/bzImage /boot/vmlinuz-linux-${kernel_name}
 
@@ -86,6 +89,8 @@ echo $1
 
 if [ $1 = "init" ]; then
 	init
+elif [ $1 = "build" ]; then
+	build
 elif [ $1 = "deploy" ]; then
 	deploy
 elif [ $1 = "clean" ]; then
