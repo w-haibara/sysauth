@@ -38,19 +38,21 @@ function init (){
 
         sed -i -e "${incert_num}i ${incert_line}" ${syscall_tbl} 
     fi
-
-    ln ../src/echo_server.c ./kernel/echo_server.c
-    ln ../src/fastecho_module.c ./kernel/fastecho_module.c
-    ln ../src/sysauth.c ./kernel/sysauth.c
-    
+   
     incert_line="#include \"${func_name}\""
     if grep "${incert_line}" ${sys_c} > /dev/null; then
         echo "note: ${func_name} was already included in kernel/sys.c"
     else
         echo "${incert_line}" >> ${sys_c}
     fi
-
+    
     make oldconfig
+    
+    cd ../
+
+    for file in src/*; do
+        ln ${file} ./linux-${linux_version}/kernel/${file:4}
+    done
 }
 
 function build (){
