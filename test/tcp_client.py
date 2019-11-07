@@ -4,20 +4,14 @@
 
 import socket
 
-target = "localhost"
-port = 8888
-message = "hello,world!"
+server_ip= "127.0.1.1"
+server_port = 2325
+buf_size = 1024
+message = "hello from client"
 
-#using IPv4 and TCP/IP
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_sock.connect((server_ip, server_port))
+client_sock.send(message.encode('utf-8'))
+data = client_sock.recv(buf_size)
+print("[tcp_client.py] msg from server: {}".format(data.decode(encoding='utf-8')))
 
-#connecting
-client_socket.connect((target, port))
-
-#data send
-client_socket.send(message.encode('utf-8'))
-
-#get data
-response_data = client_socket.recv(4096) 
-
-print(response_data.decode(encoding='utf-8'))
