@@ -1,4 +1,5 @@
 linux-*
+test/sysauthTest
 
 # Prerequisites
 *.d
