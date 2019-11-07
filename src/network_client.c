@@ -208,7 +208,7 @@ int tcp_client_connect(void)
         */
 
 err:
-        return -1;
+        return ret;
 }
 
 static int __init network_client_init(unsigned char * ip, unsigned int port, char * msg_from_server, size_t msg_size)
@@ -223,11 +223,11 @@ static int __init network_client_init(unsigned char * ip, unsigned int port, cha
 
         DESTPORT = port;
 
-        tcp_client_connect();
+        int ret = tcp_client_connect();
 
         strncpy(msg_from_server, MSG_FROM_SERVER, msg_size);
 
-        return 0;
+        return ret;
 }
 
 /*
